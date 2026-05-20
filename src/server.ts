@@ -1,11 +1,24 @@
 import Fastify from "fastify"
 
-const app = Fastify({
-    logger:true
-});
+const app = Fastify();
+
+type LoginBody = {
+    user: string,
+    pass: string
+};
 
 app.get("/", async() => {
     return {hello: "world"};
+});
+
+app.post("/login", async (req, reply) => {
+    const data = req.body as LoginBody;
+
+    if (data.user == "Hello" && data.pass == "hi"){
+        return {status: "Success"};
+    } else {
+        return {status: "Failed"};
+    }
 });
 
 const start = async () => {
