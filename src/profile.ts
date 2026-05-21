@@ -1,34 +1,11 @@
 import Fastify from "fastify";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import fs from "fs";
+import { AuthRequest } from "./auth/types.js";
+import { authenticateToken } from "./auth/verify.js";
 
 dotenv.config();
 
 const app = Fastify()
-
-interface AuthRequest extends Fastify.FastifyRequest {
-    user?: {
-        username: string
-        iat: number
-        exp: number
-    }
-}
-
-async function authenticateToken(req: AuthRequest, res: Fastify.FastifyReply): Promise<void> {
-    const authHeader = req.headers.authorization
-    const token = authHeader && authHeader.split(' ')[1]
-    if(token==null) return res.status(401).send("Unauthorized")
-
-    const secret = fs.readFileSync("./certs/public.pem")
-    
-    try {
-        const user = jwt.verify(token, secret) as AuthRequest["user"]
-        req.user = user
-    } catch(err) {
-        return res.status(403).send("Forbidden")
-    }
-}
 
 app.get("/me", async(req: AuthRequest, res) => {
     await authenticateToken(req, res)

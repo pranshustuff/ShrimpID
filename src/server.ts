@@ -2,7 +2,7 @@ import Fastify, { fastify } from "fastify"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
-import { Credentials, StoredUser } from "./types.js"
+import { Credentials, StoredUser } from "./auth/types.js"
 import fs from "fs";
 dotenv.config()
 
@@ -29,7 +29,7 @@ app.post("/signup", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const {username, password} = req.body as Credentials
-    const secret = fs.readFileSync("./certs/private.pem");
+    const secret = fs.readFileSync(process.env.PRIVATE_KEY_PATH as string);
 
     const user = users.find(u => u.username == username)
     if(!user){
