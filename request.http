@@ -1,0 +1,21 @@
+GET http://localhost:3000/me HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbGxvMSIsImlhdCI6MTc3OTM1NTAyNSwiZXhwIjoxNzc5MzU4NjI1fQ.9CiauQrAXtURE8cSmqNmtCOOxrz17qOuspqBcSijU-8
+
+###
+
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+  "username": "Hello1",
+  "password": "Hi"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "Hello1",
+  "password": "Hi"
+}
